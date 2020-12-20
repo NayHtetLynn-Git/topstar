@@ -91,15 +91,24 @@ class ShopController extends Controller
     }
 
     public function shopRegNumber($tsp_id){
-        $count = Shop::where('tsp_id',$tsp_id)->count()+1;
-        if ($count<10) {
-            $count=$tsp_id."00".$count
-        }elseif ($count<100) {
-            $count=$tsp_id."0".$count
-        }elseif ($count<1000) {
-            # code...
+        $townships=Township::where('id',$tsp_id)->get();
+        $shops = Shop::where('tsp_id',$tsp_id);
+
+        $tspCode="";
+        foreach ($townships as $township) {
+            $tspCode = $township['tsp_code'];
         }
-        $msg = $count."This is a simple message.";
-        return response()->json(array('msg'=> $msg), 200);
+
+        $registerNumber="";
+        if ($shops->count()>0){
+            foreach ($shops->latest('created_at')->first()->get() as $shop) {
+                $registerNumber = $shop['register_number']+1;
+            }
+        }else{
+            $registerNumber=$tspCode."001";
+        }
+
+        $msg =$registerNumber;
+        return response()->json(array('register_number'=> $msg), 200);
     }
 }

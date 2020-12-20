@@ -42,6 +42,6 @@ Route::post('/shop/store', 'ShopController@store')->name('shop.store');
 
 Route::get('/shop', 'ShopController@index')->name('shop.index');
 
-Route::get('/getRegNumber','ShopController@shopRegNumber');
+Route::get('/getRegNumber/{tsp_id}','ShopController@shopRegNumber');
 
 Route::get('/print', 'PrintController@index')->name('print.index');

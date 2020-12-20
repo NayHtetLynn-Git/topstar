@@ -7,8 +7,7 @@
                 @csrf
 
                 <div class="container">
-
-                    <div class="row d-flex justify-content-end">
+                    <div class="row d-flex justify-content-end invisible" id="reg_no">
                         <label class="col unicode" style="text-align: right">အမှတ်စဉ်</label>
                         <div class="col-md-2">
                             <input type="text" disabled name="register_number" id="register_number" value="" class="form-control unicode">
@@ -100,21 +99,19 @@
     <script>
         function myFunction(e) {
             // document.getElementById("register_number").value = e
-           $.ajax({
+            $.ajax({
                 type:'GET',
-                url:'/getRegNumber',
+                url:'/getRegNumber/'+e,
                 data:'_token = <?php echo csrf_token() ?>',
                 success:function(data) {
-                    // document.getElementById("register_number").value =html(data.msg);
-                    alert(data.msg);
-                    document.getElementById("register_number").value = data.msg
+                    // $("#reg_no").show();
+                    $('#reg_no').show();
+                    document.getElementById("register_number").value = data.register_number
                 },
                 error: function (response){
-                    $("#register_number").html("error");
                      alert(response);
                 }
             });
-
         }
     </script>
 @endsection
